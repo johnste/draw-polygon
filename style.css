@@ -1,0 +1,23 @@
+body {
+  background: #333;
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  font-family: sans-serif;
+}
+
+canvas {
+  background: #fff;
+}
+
+div.controls {
+  background: #eee;
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+}
+
+div.controls > * {
+  margin: 0 5px;
+}
