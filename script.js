@@ -9,6 +9,9 @@ const paperHeight = localStorage.getItem("height")
 const gridSize = localStorage.getItem("grid")
   ? parseInt(localStorage.getItem("grid"))
   : 10;
+const scale = localStorage.getItem("scale")
+  ? parseInt(localStorage.getItem("scale"))
+  : 4;
 
 const strokes = localStorage.getItem("poly")
   ? JSON.parse(localStorage.getItem("poly"))
@@ -17,6 +20,7 @@ const strokes = localStorage.getItem("poly")
 document.getElementById("width").value = paperWidth;
 document.getElementById("height").value = paperHeight;
 document.getElementById("grid").value = gridSize;
+document.getElementById("scale").value = scale;
 
 document
   .getElementById("width")
@@ -33,11 +37,15 @@ document
   .addEventListener("change", e =>
     localStorage.setItem("grid", e.target.value)
   );
-
+document
+  .getElementById("scale")
+  .addEventListener("change", e =>
+    localStorage.setItem("scale", e.target.value)
+  );
 c.width = paperWidth;
 c.height = paperHeight;
 var ctx = c.getContext("2d");
-ctx.strokeStyle = "#aaa";
+ctx.strokeStyle = "#ddd";
 ctx.lineWidth = 1;
 
 for (let x = 0; x < paperWidth; x += gridSize) {
@@ -82,6 +90,10 @@ c.addEventListener("click", event => {
   strokes.push(current.x, current.y);
 });
 
+ctx.strokeStyle = "#a3a";
+ctx.lineWidth = 2;
+ctx.rect(50, 200, 4000 / 4, 1000 / 4);
+ctx.stroke();
 function getCursorPosition(canvas, event) {
   const rect = canvas.getBoundingClientRect();
 
@@ -91,9 +103,21 @@ function getCursorPosition(canvas, event) {
   return { x, y };
 }
 
-document
-  .getElementById("dump")
-  .addEventListener("click", event => console.log(strokes));
+document.getElementById("dump").addEventListener("click", event => {
+  const result = strokes
+    .map((v, i) => {
+      if (i % 2 == 0) {
+        return (v * 4200) / paperWidth - 2100;
+      } else {
+        return (v * 1200) / paperHeight - 200;
+      }
+    })
+    .join(", ");
+
+  console.log(result);
+
+  document.getElementById("output").innerHTML = result;
+});
 
 document.getElementById("reset").addEventListener("click", event => {
   console.log(`reset`);
