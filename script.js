@@ -1,64 +1,34 @@
 var c = document.getElementById("canvas");
 
-const paperWidth = localStorage.getItem("width")
-  ? parseInt(localStorage.getItem("width"))
-  : 800;
-const paperHeight = localStorage.getItem("height")
-  ? parseInt(localStorage.getItem("height"))
-  : 400;
-const gridSize = localStorage.getItem("grid")
-  ? parseInt(localStorage.getItem("grid"))
-  : 10;
-const scale = localStorage.getItem("scale")
-  ? parseInt(localStorage.getItem("scale"))
-  : 4;
+const paperWidth = 4200;
+
+const paperHeight = 1200;
+
+const gridSize = 3;
+
+const scale = 4;
 
 const strokes = localStorage.getItem("poly")
   ? JSON.parse(localStorage.getItem("poly"))
   : [];
 
-document.getElementById("width").value = paperWidth;
-document.getElementById("height").value = paperHeight;
-document.getElementById("grid").value = gridSize;
-document.getElementById("scale").value = scale;
-
-document
-  .getElementById("width")
-  .addEventListener("change", e =>
-    localStorage.setItem("width", e.target.value)
-  );
-document
-  .getElementById("height")
-  .addEventListener("change", e =>
-    localStorage.setItem("height", e.target.value)
-  );
-document
-  .getElementById("grid")
-  .addEventListener("change", e =>
-    localStorage.setItem("grid", e.target.value)
-  );
-document
-  .getElementById("scale")
-  .addEventListener("change", e =>
-    localStorage.setItem("scale", e.target.value)
-  );
-c.width = paperWidth;
-c.height = paperHeight;
+c.width = paperWidth / scale;
+c.height = paperHeight / scale;
 var ctx = c.getContext("2d");
 ctx.strokeStyle = "#ddd";
 ctx.lineWidth = 1;
 
-for (let x = 0; x < paperWidth; x += gridSize) {
+for (let x = 0; x < paperWidth / scale; x += gridSize) {
   ctx.beginPath();
   ctx.moveTo(x, 0);
-  ctx.lineTo(x, paperHeight);
+  ctx.lineTo(x, paperHeight / scale);
   ctx.stroke();
 }
 
-for (let y = 0; y < paperHeight; y += gridSize) {
+for (let y = 0; y < paperHeight / scale; y += gridSize) {
   ctx.beginPath();
   ctx.moveTo(0, y);
-  ctx.lineTo(paperWidth, y);
+  ctx.lineTo(paperWidth / scale, y);
   ctx.stroke();
 }
 
@@ -90,9 +60,10 @@ c.addEventListener("click", event => {
   strokes.push(current.x, current.y);
 });
 
-ctx.strokeStyle = "#a3a";
+ctx.beginPath();
+ctx.strokeStyle = "#aec";
 ctx.lineWidth = 2;
-ctx.rect(50, 200, 4000 / 4, 1000 / 4);
+ctx.rect(200 / scale, 200 / scale, 4000 / scale, 1000 / scale);
 ctx.stroke();
 function getCursorPosition(canvas, event) {
   const rect = canvas.getBoundingClientRect();
@@ -107,9 +78,9 @@ document.getElementById("dump").addEventListener("click", event => {
   const result = strokes
     .map((v, i) => {
       if (i % 2 == 0) {
-        return (v * 4200) / paperWidth - 2100;
+        return (v - 50) * scale;
       } else {
-        return (v * 1200) / paperHeight - 200;
+        return (v - 50) * scale;
       }
     })
     .join(", ");
