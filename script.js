@@ -1,6 +1,6 @@
 var c = document.getElementById("canvas");
 
-const paperWidth = 4200;
+const paperWidth = 4400;
 
 const paperHeight = 1200;
 
