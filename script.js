@@ -1,8 +1,8 @@
 var c = document.getElementById("canvas");
 
-const paperWidth = 4400;
+const paperWidth = 6000;
 
-const paperHeight = 1200;
+const paperHeight = 2200;
 
 const gridSize = 3;
 
@@ -63,7 +63,7 @@ c.addEventListener("click", event => {
 ctx.beginPath();
 ctx.strokeStyle = "#aec";
 ctx.lineWidth = 2;
-ctx.rect(200 / scale, 200 / scale, 4000 / scale, 1000 / scale);
+ctx.rect(1000 / scale, 200 / scale, 4000 / scale, 2000 / scale);
 ctx.stroke();
 function getCursorPosition(canvas, event) {
   const rect = canvas.getBoundingClientRect();
@@ -78,7 +78,7 @@ document.getElementById("dump").addEventListener("click", event => {
   const result = strokes
     .map((v, i) => {
       if (i % 2 == 0) {
-        return (v - 50) * scale;
+        return (v - 250) * scale;
       } else {
         return (v - 50) * scale;
       }
